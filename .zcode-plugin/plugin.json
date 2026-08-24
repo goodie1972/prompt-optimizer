@@ -1,0 +1,16 @@
+{
+  "name": "prompt-optimizer",
+  "version": "1.0.0",
+  "description": "提示词优化插件：提供 /optimize 命令和 optimize_prompt MCP 工具，通过 LLM 优化提示词，使其更清晰、更具体、更可执行。",
+  "author": { "name": "goodie1972" },
+  "license": "MIT",
+  "commands": "commands",
+  "skills": "skills",
+  "mcpServers": {
+    "prompt-optimizer": {
+      "command": "python",
+      "args": ["mcp/server.py"],
+      "env": {}
+    }
+  }
+}
