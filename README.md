@@ -30,9 +30,11 @@
 
 **方法一：通过 ZCode 插件市场（推荐）**
 
-在 ZCode 中打开 **Settings → Plugin Management → Discover**，点击 **** 按钮，输入：
+在 ZCode 中打开 **Settings → Plugin Management → Discover**，点击 **⊕** 按钮，输入：
 
-
+```
+https://github.com/goodie1972/prompt-optimizer
+```
 
 ZCode 会自动扫描仓库并安装插件。
 
