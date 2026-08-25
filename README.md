@@ -28,7 +28,15 @@
 
 ### 安装 / Install
 
-**方法一：pip 安装（推荐）**
+**方法一：通过 ZCode 插件市场（推荐）**
+
+在 ZCode 中打开 **Settings → Plugin Management → Discover**，点击 **** 按钮，输入：
+
+
+
+ZCode 会自动扫描仓库并安装插件。
+
+**方法二：pip 安装**
 
 ```bash
 pip install prompt-optimizer-mcp
