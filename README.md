@@ -6,7 +6,8 @@
 
 <p align="center">
   <a href="https://pypi.org/project/prompt-optimizer-mcp/"><img src="https://img.shields.io/pypi/v/prompt-optimizer-mcp?label=PyPI" alt="PyPI"></a>
-  <a href="https://github.com/goodie1972/prompt-optimizer"><img src="https://img.shields.io/github/v/release/goodie1972/prompt-optimizer" alt="GitHub"></a>
+  <a href="https://github.com/goodie1972/prompt-optimizer
+**Gitee 同步仓库（国内加速）**：https://gitee.com/uprobao/prompt-optimizer"><img src="https://img.shields.io/github/v/release/goodie1972/prompt-optimizer" alt="GitHub"></a>
   <a href="LICENSE"><img src="https://img.shields.io/github/license/goodie1972/prompt-optimizer" alt="License"></a>
   <a href="https://goodie1972.github.io/prompt-optimizer/demo.html"><img src="https://img.shields.io/badge/demo-live-brightgreen" alt="Live Demo"></a>
 </p>
@@ -35,6 +36,7 @@
 
 ```
 https://github.com/goodie1972/prompt-optimizer
+**Gitee 同步仓库（国内加速）**：https://gitee.com/uprobao/prompt-optimizer
 ```
 
 ZCode 会自动扫描仓库并安装插件。
@@ -73,7 +75,8 @@ pip install prompt-optimizer-mcp
 1. 将本项目克隆或下载到本地：
 
 ```bash
-git clone https://github.com/goodie1972/prompt-optimizer.git
+git clone https://github.com/goodie1972/prompt-optimizer
+**Gitee 同步仓库（国内加速）**：https://gitee.com/uprobao/prompt-optimizer.git
 ```
 
 2. 将 `prompt-optimizer` 目录下的内容放入 ZCode 插件目录：
@@ -178,8 +181,10 @@ prompt-optimizer/
 ## 🔗 链接 / Links
 
 - **GitHub:** https://github.com/goodie1972/prompt-optimizer
+**Gitee 同步仓库（国内加速）**：https://gitee.com/uprobao/prompt-optimizer
 - **PyPI:** https://pypi.org/project/prompt-optimizer-mcp/
-- **Issues:** https://github.com/goodie1972/prompt-optimizer/issues
+- **Issues:** https://github.com/goodie1972/prompt-optimizer
+**Gitee 同步仓库（国内加速）**：https://gitee.com/uprobao/prompt-optimizer/issues
 
 ---
 
