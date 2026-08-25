@@ -1,0 +1,41 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "prompt-optimizer-mcp"
+version = "1.1.1"
+description = "ZCode 提示词优化插件：提供 /optimize 命令和 optimize_prompt MCP 工具"
+readme = "README.md"
+license = {text = "MIT"}
+requires-python = ">=3.10"
+authors = [
+    {name = "goodie1972", email = "goodie1972@example.com"},
+]
+keywords = ["zcode", "mcp", "prompt", "optimizer", "ai"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+]
+dependencies = [
+    "mcp>=2.0.0",
+    "openai>=2.0.0",
+]
+
+[project.scripts]
+prompt-optimizer-mcp = "prompt_optimizer_mcp.cli:main"
+
+[project.urls]
+Homepage = "https://github.com/goodie1972/prompt-optimizer"
+Repository = "https://github.com/goodie1972/prompt-optimizer"
+Issues = "https://github.com/goodie1972/prompt-optimizer/issues"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/prompt_optimizer_mcp"]
