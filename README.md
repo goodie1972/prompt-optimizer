@@ -8,6 +8,7 @@
   <a href="https://pypi.org/project/prompt-optimizer-mcp/"><img src="https://img.shields.io/pypi/v/prompt-optimizer-mcp?label=PyPI" alt="PyPI"></a>
   <a href="https://github.com/goodie1972/prompt-optimizer"><img src="https://img.shields.io/github/v/release/goodie1972/prompt-optimizer" alt="GitHub"></a>
   <a href="LICENSE"><img src="https://img.shields.io/github/license/goodie1972/prompt-optimizer" alt="License"></a>
+  <a href="https://goodie1972.github.io/prompt-optimizer/demo.html"><img src="https://img.shields.io/badge/demo-live-brightgreen" alt="Live Demo"></a>
 </p>
 
 ---
@@ -39,6 +40,16 @@ https://github.com/goodie1972/prompt-optimizer
 ZCode 会自动扫描仓库并安装插件。
 
 **方法二：pip 安装**
+
+---
+
+### 🎮 在线演示 / Live Demo
+
+**[👉 点击打开交互式演示页面](https://goodie1972.github.io/prompt-optimizer/demo.html)**
+
+> 一个模拟 ZCode 界面的交互式演示，支持中英文切换，展示 `/optimize` 命令的完整使用流程。
+
+---
 
 ```bash
 pip install prompt-optimizer-mcp
