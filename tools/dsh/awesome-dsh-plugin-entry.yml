@@ -1,0 +1,6 @@
+url: https://github.com/goodie1972/prompt-optimizer
+name: goodie1972/prompt-optimizer
+category: tools
+description:
+  en: 'ZCode / DeepSeek Harness prompt optimizer: /optimize command and optimize_prompt MCP tool powered by LLM.'
+  zh: 'ZCode / DeepSeek Harness 提示词优化插件：提供 /optimize 命令和 optimize_prompt MCP 工具。'

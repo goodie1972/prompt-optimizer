@@ -1,0 +1,12 @@
+{
+  "name": "dsh-prompt-optimizer",
+  "description": "ZCode / DeepSeek Harness prompt optimizer: optimize prompts via LLM",
+  "version": "1.2.0",
+  "entry": {
+    "name": "dsh-prompt-optimizer",
+    "inject": ["typert", "settings", "webServer"]
+  },
+  "client": {
+    "platform": "web"
+  }
+}

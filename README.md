@@ -1,193 +1,175 @@
-<p align="center">
-  <h1 align="center">🔮 Prompt Optimizer</h1>
-  <p align="center">ZCode 提示词优化插件 — 让 AI 帮你写出更好的提示词</p>
-  <p align="center"><i>A ZCode plugin that refines your prompts using AI — clearer, more specific, more actionable.</i></p>
-</p>
+# 🔮 Prompt Optimizer
 
-<p align="center">
-  <a href="https://pypi.org/project/prompt-optimizer-mcp/"><img src="https://img.shields.io/pypi/v/prompt-optimizer-mcp?label=PyPI" alt="PyPI"></a>
-  <a href="https://github.com/goodie1972/prompt-optimizer
-**Gitee 同步仓库（国内加速）**：https://gitee.com/uprobao/prompt-optimizer"><img src="https://img.shields.io/github/v/release/goodie1972/prompt-optimizer" alt="GitHub"></a>
-  <a href="LICENSE"><img src="https://img.shields.io/github/license/goodie1972/prompt-optimizer" alt="License"></a>
-  <a href="https://goodie1972.github.io/prompt-optimizer/demo.html"><img src="https://img.shields.io/badge/demo-live-brightgreen" alt="Live Demo"></a>
-</p>
+A plugin for AI-assisted development tools that provides:
+- `/optimize` command
+- `optimize_prompt` MCP tool
+- Skill definition
 
----
+Refines your prompts to be clearer, more specific, and more actionable.
 
-## ✨ 功能 / Features
+## Supported Tools
 
-| 中文 | English |
-|------|---------|
-| 输入原始提示词，AI 自动优化 | Feed in a raw prompt, get an AI-polished version |
-| 支持 `/optimize` 命令 | `/optimize` slash command |
-| 支持 `optimize_prompt` MCP 工具 | `optimize_prompt` MCP tool for AI auto-invocation |
-| 自动读取 ZCode 当前激活的模型配置 | Auto-detects your active model in ZCode |
-| 支持 10+ 模型服务商 | 10+ provider support (OpenAI, DeepSeek, Agnes, etc.) |
+| Tool | Plugin Directory | Configuration |
+|------|------------------|---------------|
+| **ZCode** | `~/.zcode/cli/plugins/custom/prompt-optimizer/` | Settings → Plugin Management → Discover → Add repo URL |
+| **Claude Code** | `~/.claude/plugins/prompt-optimizer/` | `claude plugins install` or manual copy |
+| **Codex CLI** | `~/.codex/plugins/prompt-optimizer/` | `codex plugin install` or manual copy |
+| **Reasonix** | `~/.reasonix/skills/prompt-optimizer/` | Automatic skill discovery |
+| **DSH** | `tools/dsh/npm/` (npm package, dsh-market ready) | `dsh plugin --profile web add dsh-prompt-optimizer` |
+| **MimoCode** | `~/.mimocode/plugins/prompt-optimizer/` | Settings → Plugins |
+| **OpenCode** | `~/.opencode/mcp-servers/prompt-optimizer/` | MCP server configuration |
 
----
+## Installation
 
-## 🚀 快速开始 / Quick Start
-
-### 安装 / Install
-
-**方法一：通过 ZCode 插件市场（推荐）**
-
-在 ZCode 中打开 **Settings → Plugin Management → Discover**，点击 **⊕** 按钮，输入：
-
-```
-https://github.com/goodie1972/prompt-optimizer
-**Gitee 同步仓库（国内加速）**：https://gitee.com/uprobao/prompt-optimizer
+### Option 1: GitHub (International Users)
+```bash
+git clone https://github.com/goodie1972/prompt-optimizer.git
 ```
 
-ZCode 会自动扫描仓库并安装插件。
+### Option 2: Gitee (China Mainland, Accelerated)
+```bash
+git clone https://gitee.com/uprobao/prompt-optimizer.git
+```
 
-**方法二：pip 安装**
-
----
-
-### 🎮 在线演示 / Live Demo
-
-**[👉 点击打开交互式演示页面](https://goodie1972.github.io/prompt-optimizer/demo.html)**
-
-> 一个模拟 ZCode 界面的交互式演示，支持中英文切换，展示 `/optimize` 命令的完整使用流程。
-
----
-
+### Option 3: PyPI Package
 ```bash
 pip install prompt-optimizer-mcp
 ```
 
-然后在 ZCode 的 **Settings → MCP** 中添加服务器：
+## Tool-Specific Installation
 
-```json
-{
-  "mcpServers": {
-    "prompt-optimizer": {
-      "command": "prompt-optimizer-mcp",
-      "env": {}
-    }
-  }
-}
+### 🎯 ZCode
+1. Copy the entire `prompt-optimizer` folder to:
+   ```
+   ~/.zcode/cli/plugins/custom/prompt-optimizer/
+   ```
+2. In ZCode, go to **Settings → Plugin Management → Discover** → Click `⊕` → Enter the repo URL:
+   - GitHub: `https://github.com/goodie1972/prompt-optimizer`
+   - Gitee: `https://gitee.com/uprobao/prompt-optimizer`
+3. Enable the plugin.
+4. Configure your API key in `~/.zcode/mcp/prompt-optimizer/.env`.
+
+### 🎯 Claude Code
+1. Copy the entire `prompt-optimizer` folder to:
+   ```
+   ~/.claude/plugins/prompt-optimizer/
+   ```
+2. Restart Claude Code or run:
+   ```bash
+   claude plugins install
+   ```
+3. The `/optimize` command and `optimize_prompt` MCP tool will be available.
+
+### 🎯 Codex CLI
+1. Copy the entire `prompt-optimizer` folder to:
+   ```
+   ~/.codex/plugins/prompt-optimizer/
+   ```
+2. Restart Codex or run:
+   ```bash
+   codex plugin install
+   ```
+3. The `/optimize` command and `optimize_prompt` MCP tool will be available.
+
+### 🎯 Reasonix
+1. Copy the `skills/prompt-optimizer` folder to:
+   ```
+   ~/.reasonix/skills/prompt-optimizer/
+   ```
+2. Restart Reasonix. The skill will be auto-discovered.
+3. Use the `optimize_prompt` skill in your workflows.
+
+### 🎯 DSH
+1. Install via npm (recommended — appears in dsh-market):
+   ```bash
+   dsh plugin --profile web add dsh-prompt-optimizer
+   ```
+2. Or install from the repo:
+   ```bash
+   cd tools/dsh/npm
+   npm install
+   dsh plugin --profile web add .
+   ```
+3. The `/optimize` command, `optimize_prompt` MCP tool, and Settings page (Settings → Prompt Optimizer) will be available.
+
+> **dsh-market submission**: The DSH npm package is ready to be submitted to [awesome-dsh-plugin](https://github.com/awesome-dsh-plugin/awesome-dsh-plugin) via PR. See `tools/dsh/awesome-dsh-plugin-entry.yml` for the registry entry.
+
+### 🎯 MimoCode
+1. Copy the entire `prompt-optimizer` folder to:
+   ```
+   ~/.mimocode/plugins/prompt-optimizer/
+   ```
+2. In MimoCode Settings → Plugins, enable the plugin.
+3. The `/optimize` command and `optimize_prompt` MCP tool will be available.
+
+### 🎯 OpenCode
+1. Copy the `mcp/server.py` file to:
+   ```
+   ~/.opencode/mcp-servers/prompt-optimizer/server.py
+   ```
+2. Create a config file:
+   ```json
+   {
+     "mcpServers": {
+       "prompt-optimizer": {
+         "command": "python",
+         "args": ["~/.opencode/mcp-servers/prompt-optimizer/server.py"],
+         "env": {}
+       }
+     }
+   }
+   ```
+3. Restart OpenCode. The `optimize_prompt` MCP tool will be available.
+
+## Configuration
+
+For all tools that use the MCP server:
+```
+~/.zcode/mcp/prompt-optimizer/.env
+```
+or environment variables:
+- `OPTIMIZE_API_KEY` + `OPTIMIZE_BASE_URL` + `OPTIMIZE_MODEL`
+- Or any known provider key (e.g., `OPENAI_API_KEY`, `DEEPSEEK_API_KEY`, `AGNES_API_KEY`)
+
+## Usage
+
+### As a Command
+In any supported tool's chat interface:
+```
+/optimize Your raw prompt here
 ```
 
-**方法二：ZCode 插件安装**
-
-1. 将本项目克隆或下载到本地：
-
-```bash
-git clone https://github.com/goodie1972/prompt-optimizer
-**Gitee 同步仓库（国内加速）**：https://gitee.com/uprobao/prompt-optimizer.git
+### As an MCP Tool
+In your tool's AI workflow, call:
+```python
+optimize_prompt(prompt="Your raw prompt here")
 ```
 
-2. 将 `prompt-optimizer` 目录下的内容放入 ZCode 插件目录：
+## Changelog
 
-```
-~/.zcode/cli/plugins/custom/prompt-optimizer/
-```
-
-3. 在 ZCode 中启用：**Settings → Plugin Management → Installed → prompt-optimizer → Enable**
-
-### 配置 API Key / Configure API Key
-
-在 `~/.zcode/mcp/prompt-optimizer/.env` 中创建并写入：
-
-```env
-# 直接指定
-OPTIMIZE_API_KEY=sk-your-key
-OPTIMIZE_BASE_URL=https://api.openai.com/v1
-OPTIMIZE_MODEL=gpt-4o
-
-# 或者使用已有服务商的环境变量（自动识别）
-# AGNES_API_KEY=...
-# DEEPSEEK_API_KEY=...
-# OPENAI_API_KEY=...
-```
-
-> **提示：** 如果 `.env` 未配置，插件会自动读取 ZCode 当前激活的模型配置（`.aiagent.json` 中的 active provider）。
-
-### 使用 / Usage
-
-```
-# 在 ZCode 对话中输入：
-/optimize 写一个Python脚本读取CSV文件
-
-# 或者自然对话方式：
-帮我优化一下这个提示词：写一个Python脚本读取CSV文件
-```
-
----
-
-## 📖 详细说明 / Details
-
-### 工作原理 / How It Works
-
-1. 用户输入原始提示词
-2. 插件通过 OpenAI 兼容协议调用 LLM
-3. LLM 对提示词进行优化：更清晰、更具体、更可执行
-4. 返回优化后的提示词
-
-### 配置优先级 / Config Priority
-
-```
-OPTIMIZE_* 环境变量 (.env)  >  ZCode 激活模型配置 (.aiagent.json)  >  默认值 (Agnes)
-```
-
-### 支持的模型服务商 / Supported Providers
-
-Agnes · DeepSeek · OpenAI · DashScope · SenseNova · SiliconFlow · Zhipu · Moonshot · Gemini · NVIDIA · Anthropic
-
----
-
-## 📦 项目结构 / Project Structure
-
-```
-prompt-optimizer/
-├── .zcode-plugin/          # ZCode 插件清单
-├── commands/               # /optimize 命令定义
-│   └── optimize.md
-├── mcp/                    # MCP 服务器脚本
-│   └── server.py
-├── skills/                 # 技能定义
-│   └── prompt-optimizer/
-│       └── SKILL.md
-├── pypi/                   # PyPI 包源码
-│   └── package/
-│       ├── pyproject.toml
-│       └── src/prompt_optimizer_mcp/
-│           ├── __init__.py
-│           ├── cli.py
-│           └── server.py
-├── .env.example            # 环境变量模板
-└── README.md
-```
-
----
-
-## 📋 更新日志 / Changelog
+### v1.2.0
+- Added multi-tool support: ZCode, Claude Code, Codex CLI, Reasonix, DSH, MimoCode, OpenCode
+- DSH npm package with dsh-market registry ready
+- Updated documentation with tool-specific installation guides
+- Added Gitee mirror for China mainland users
 
 ### v1.1.1
-- 文档优化为中英文双语，添加 badges 和链接
-- Documentation optimized to bilingual with badges and links
+- Documentation updated to bilingual (Chinese/English)
 
 ### v1.1.0
-- 兼容 mcp 2.0.0（`FastMCP` → `MCPServer`）
 - Compatible with mcp 2.0.0 (`FastMCP` → `MCPServer`)
 
 ### v1.0.0
-- 初始发布 / Initial release
+- Initial release
 
----
+## Links
 
-## 🔗 链接 / Links
+- **GitHub**: https://github.com/goodie1972/prompt-optimizer
+- **Gitee**: https://gitee.com/uprobao/prompt-optimizer
+- **PyPI**: https://pypi.org/project/prompt-optimizer-mcp/
+- **Live Demo**: https://goodie1972.github.io/prompt-optimizer/demo.html
+- **Issues**: https://github.com/goodie1972/prompt-optimizer/issues
 
-- **GitHub:** https://github.com/goodie1972/prompt-optimizer
-**Gitee 同步仓库（国内加速）**：https://gitee.com/uprobao/prompt-optimizer
-- **PyPI:** https://pypi.org/project/prompt-optimizer-mcp/
-- **Issues:** https://github.com/goodie1972/prompt-optimizer
-**Gitee 同步仓库（国内加速）**：https://gitee.com/uprobao/prompt-optimizer/issues
-
----
-
-## 📄 许可证 / License
+## License
 
 MIT © goodie1972

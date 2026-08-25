@@ -1,0 +1,73 @@
+{
+  "name": "dsh-prompt-optimizer",
+  "version": "1.2.0",
+  "description": "ZCode / DeepSeek Harness prompt optimizer: /optimize command and optimize_prompt MCP tool, refine prompts via LLM to be clearer, more specific, more actionable.",
+  "description_zh": "提示词优化插件：提供 /optimize 命令和 optimize_prompt MCP 工具，通过 LLM 优化提示词，使其更清晰、更具体、更可执行。",
+  "type": "module",
+  "main": "./lib/index.js",
+  "exports": {
+    ".": {
+      "default": "./lib/index.js"
+    },
+    "./client": {
+      "default": "./lib/client.js"
+    },
+    "./cordis.patch.yml": "./cordis.patch.yml",
+    "./package.json": "./package.json"
+  },
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    },
+    "client": {
+      "platform": "web",
+      "inject": [
+        "@deepseek-ai/dsh-client-runtime",
+        "@deepseek-ai/dsh-client-ui-settings",
+        "@deepseek-ai/dsh-client-locale",
+        "@deepseek-ai/dsh-llm"
+      ]
+    }
+  },
+  "files": [
+    "lib",
+    "cordis.patch.yml",
+    "dsh.plugin.json",
+    "README.md",
+    "README.zh.md",
+    "package.json",
+    "LICENSE"
+  ],
+  "peerDependencies": {
+    "@deepseek-ai/dsh-client-runtime": "*",
+    "@deepseek-ai/dsh-client-ui-settings": "*",
+    "@deepseek-ai/dsh-client-locale": "*",
+    "@deepseek-ai/dsh-llm": "*",
+    "@deepseek-ai/dsh-api-remotes": "*"
+  },
+  "peerDependenciesMeta": {
+    "@deepseek-ai/dsh-client-runtime": { "optional": true },
+    "@deepseek-ai/dsh-client-ui-settings": { "optional": true },
+    "@deepseek-ai/dsh-client-locale": { "optional": true },
+    "@deepseek-ai/dsh-llm": { "optional": true },
+    "@deepseek-ai/dsh-api-remotes": { "optional": true }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/goodie1972/prompt-optimizer.git",
+    "directory": "tools/dsh/npm"
+  },
+  "bugs": {
+    "url": "https://github.com/goodie1972/prompt-optimizer/issues"
+  },
+  "homepage": "https://github.com/goodie1972/prompt-optimizer/tree/main/tools/dsh/npm",
+  "license": "MIT",
+  "keywords": [
+    "dsh-plugin",
+    "prompt-optimizer",
+    "optimize-prompt",
+    "mcp",
+    "deepseek-harness",
+    "prompt-engineering"
+  ]
+}
