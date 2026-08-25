@@ -1,0 +1,23 @@
+{
+  "name": "prompt-optimizer",
+  "displayName": "🔮 Prompt Optimizer",
+  "version": "1.2.0",
+  "description": "Codex CLI 提示词优化插件：提供 /optimize 命令和 optimize_prompt MCP 工具，通过 LLM 优化提示词，使其更清晰、更具体、更可执行。",
+  "description_i18n": {
+    "en": "Codex CLI prompt optimizer plugin: provides /optimize command and optimize_prompt MCP tool to refine prompts via LLM.",
+    "zh-CN": "Codex CLI 提示词优化插件：提供 /optimize 命令和 optimize_prompt MCP 工具，通过 LLM 优化提示词，使其更清晰、更具体、更可执行。"
+  },
+  "author": { "name": "goodie1972" },
+  "license": "MIT",
+  "homepage": "https://github.com/goodie1972/prompt-optimizer",
+  "repository": "https://github.com/goodie1972/prompt-optimizer",
+  "commands": "commands",
+  "skills": "skills",
+  "mcpServers": {
+    "prompt-optimizer": {
+      "command": "python",
+      "args": ["mcp/server.py"],
+      "env": {}
+    }
+  }
+}
