@@ -470,8 +470,8 @@
           </div>
           <div style="display:flex;gap:10px;margin-bottom:12px;">
             <input class="zcode-input" id="promptInput" type="text"
-                   placeholder="/optimize 写一个Python脚本读取CSV文件"
-                   value="/optimize 写一个Python脚本读取CSV文件">
+                   placeholder="zh=/optimize 写一个Python脚本读取CSV文件|en=/optimize Write a Python script to read CSV"
+                   value="zh=/optimize 写一个Python脚本读取CSV文件|en=/optimize Write a Python script to read CSV">
             <button class="zcode-btn" id="optimizeBtn">
               ✨ <span class="zh">优化</span><span class="en">Optimize</span>
             </button>
@@ -513,25 +513,28 @@
     </div>
     <div class="step-body">
       <div style="display:flex;flex-direction:column;gap:10px;">
-        <div class="example-box" onclick="runExample(this, '请帮我写个代码', '请帮我生成一个 Python 脚本，实现以下功能：\n1. 读取指定路径下的 CSV 文件\n2. 处理缺失值和数据类型\n3. 输出统计摘要\n\n要求：\n- 使用 pandas 库\n- 添加详细的注释\n- 包含错误处理')">
+        <div class="example-box" data-raw="zh=原始: 请帮我写个代码|en=Raw: Write a Python script" data-after="zh=→ 优化后：明确需求 + 列要点|en=→ After: clear + structured"
+          onclick="runExample(this, '请帮我写个代码', 'Write a Python script', '请帮我生成一个 Python 脚本，实现以下功能：\n1. 读取指定路径下的 CSV 文件\n2. 处理缺失值和数据类型\n3. 输出统计摘要\n\n要求：\n- 使用 pandas 库\n- 添加详细的注释\n- 包含错误处理', 'Create a Python script that:\n1. Reads a CSV file from a specified path\n2. Handles missing values and data types\n3. Outputs a statistical summary\n\nRequirements:\n- Use the pandas library\n- Add detailed comments\n- Include error handling')">
           <span class="play-icon">▶</span>
           <div>
-            <div class="ex-label"><span class="zh">原始</span><span class="en">Raw</span>: "请帮我写个代码"</div>
-            <div class="ex-value"><span class="zh">→ 优化后：明确需求 + 列要点</span><span class="en">→ After: clear + structured</span></div>
+            <div class="ex-label">zh=原始: 请帮我写个代码|en=Raw: Write a Python script</div>
+            <div class="ex-value">zh=→ 优化后：明确需求 + 列要点|en=→ After: clear + structured</div>
           </div>
         </div>
-        <div class="example-box" onclick="runExample(this, '优化一下这段文字', '请优化以下文本，使其更清晰、更有说服力、更专业：\n\n[粘贴你的文本]\n\n要求：\n- 保持原意不变\n- 改善逻辑结构\n- 使用更精准的词汇\n- 控制篇幅在合理范围内')">
+        <div class="example-box" data-raw="zh=原始: 优化一下这段文字|en=Raw: Polish this text" data-after="zh=→ 优化后：指定目标 + 约束条件|en=→ After: goals + constraints"
+          onclick="runExample(this, '优化一下这段文字', 'Polish this text', '请优化以下文本，使其更清晰、更有说服力、更专业：\n\n[粘贴你的文本]\n\n要求：\n- 保持原意不变\n- 改善逻辑结构\n- 使用更精准的词汇\n- 控制篇幅在合理范围内', 'Please polish the following text to make it clearer, more persuasive, and more professional:\n\n[paste your text]\n\nRequirements:\n- Keep the original meaning\n- Improve logical structure\n- Use more precise vocabulary\n- Keep it concise')">
           <span class="play-icon">▶</span>
           <div>
-            <div class="ex-label"><span class="zh">原始</span><span class="en">Raw</span>: "优化一下这段文字"</div>
-            <div class="ex-value"><span class="zh">→ 优化后：指定目标 + 约束条件</span><span class="en">→ After: goals + constraints</span></div>
+            <div class="ex-label">zh=原始: 优化一下这段文字|en=Raw: Polish this text</div>
+            <div class="ex-value">zh=→ 优化后：指定目标 + 约束条件|en=→ After: goals + constraints</div>
           </div>
         </div>
-        <div class="example-box" onclick="runExample(this, '帮我解释这段代码', '请解释以下代码的功能和工作原理：\n\n```python\ndef fibonacci(n):\n    a, b = 0, 1\n    for _ in range(n):\n        yield a\n        a, b = b, a + b\n```\n\n请从以下方面解释：\n1. 函数的作用\n2. 算法原理（生成器、元组解包）\n3. 时间复杂度和空间复杂度\n4. 使用示例')">
+        <div class="example-box" data-raw="zh=原始: 帮我解释这段代码|en=Raw: Explain this code" data-after="zh=→ 优化后：指定角度 + 分析维度|en=→ After: perspectives + dimensions"
+          onclick="runExample(this, '帮我解释这段代码', 'Explain this code', '请解释以下代码的功能和工作原理：\n\n```python\ndef fibonacci(n):\n    a, b = 0, 1\n    for _ in range(n):\n        yield a\n        a, b = b, a + b\n```\n\n请从以下方面解释：\n1. 函数的作用\n2. 算法原理（生成器、元组解包）\n3. 时间复杂度和空间复杂度\n4. 使用示例', 'Please explain the following code'\''s functionality and how it works:\n\n```python\ndef fibonacci(n):\n    a, b = 0, 1\n    for _ in range(n):\n        yield a\n        a, b = b, a + b\n```\n\nExplain from these aspects:\n1. What the function does\n2. Algorithm principles (generator, tuple unpacking)\n3. Time and space complexity\n4. Usage examples')">
           <span class="play-icon">▶</span>
           <div>
-            <div class="ex-label"><span class="zh">原始</span><span class="en">Raw</span>: "帮我解释这段代码"</div>
-            <div class="ex-value"><span class="zh">→ 优化后：指定角度 + 分析维度</span><span class="en">→ After: perspectives + dimensions</span></div>
+            <div class="ex-label">zh=原始: 帮我解释这段代码|en=Raw: Explain this code</div>
+            <div class="ex-value">zh=→ 优化后：指定角度 + 分析维度|en=→ After: perspectives + dimensions</div>
           </div>
         </div>
       </div>
@@ -550,6 +553,39 @@
 </div>
 
 <script>
+// Bilingual input helper
+function getLang() {
+  return document.body.getAttribute('data-lang') || 'zh';
+}
+
+function getL10n(val) {
+  // Support format: "zh=中文|en=English"
+  const parts = val.split('|');
+  for (const p of parts) {
+    const [lang, text] = p.split('=', 2);
+    if (lang === getLang()) return text;
+  }
+  return parts[0].split('=', 2)[1] || parts[0];
+}
+
+// Initialize input with correct language
+function updateInputLang() {
+  const input = document.getElementById('promptInput');
+  input.placeholder = getL10n(input.getAttribute('placeholder'));
+  input.value = getL10n(input.getAttribute('value'));
+  // Also update example boxes
+  document.querySelectorAll('.example-box').forEach(box => {
+    const rawLabel = box.getAttribute('data-raw');
+    const afterLabel = box.getAttribute('data-after');
+    if (rawLabel && afterLabel) {
+      const exLabel = box.querySelector('.ex-label');
+      const exValue = box.querySelector('.ex-value');
+      if (exLabel) exLabel.textContent = getL10n(rawLabel);
+      if (exValue) exValue.textContent = getL10n(afterLabel);
+    }
+  });
+}
+
 // Language switch
 function switchLang(lang) {
   document.body.setAttribute('data-lang', lang);
@@ -557,38 +593,68 @@ function switchLang(lang) {
     b.classList.toggle('active', b.getAttribute('data-lang') === lang);
   });
   localStorage.setItem('demo-lang', lang);
+  updateInputLang();
+  document.getElementById('compareView').style.display = 'none';
+  const terminal = document.getElementById('terminalBody');
+  terminal.innerHTML = '<span class="gray">' + (lang === 'en' ? '$ Type /optimize to start...' : '$ 输入 /optimize 命令开始优化...') + '</span><span class="cursor"></span>';
 }
 
 // Restore saved language
 const saved = localStorage.getItem('demo-lang');
 if (saved) switchLang(saved);
 
-// Demo data
+// Demo data - bilingual
 const examples = {
   "请帮我写个代码": {
     before: "请帮我写个代码",
     after: "请帮我生成一个 Python 脚本，实现以下功能：\n1. 读取指定路径下的 CSV 文件\n2. 处理缺失值和数据类型\n3. 输出统计摘要\n\n要求：\n- 使用 pandas 库\n- 添加详细的注释\n- 包含错误处理"
   },
+  "Write a Python script": {
+    before: "Write a Python script",
+    after: "Create a Python script that:\n1. Reads a CSV file from a specified path\n2. Handles missing values and data types\n3. Outputs a statistical summary\n\nRequirements:\n- Use the pandas library\n- Add detailed comments\n- Include error handling"
+  },
   "优化一下这段文字": {
     before: "优化一下这段文字",
     after: "请优化以下文本，使其更清晰、更有说服力、更专业：\n\n[粘贴你的文本]\n\n要求：\n- 保持原意不变\n- 改善逻辑结构\n- 使用更精准的词汇\n- 控制篇幅在合理范围内"
   },
+  "Polish this text": {
+    before: "Polish this text",
+    after: "Please polish the following text to make it clearer, more persuasive, and more professional:\n\n[paste your text]\n\nRequirements:\n- Keep the original meaning\n- Improve logical structure\n- Use more precise vocabulary\n- Keep it concise"
+  },
   "帮我解释这段代码": {
     before: "帮我解释这段代码",
     after: "请解释以下代码的功能和工作原理：\n\n```python\ndef fibonacci(n):\n    a, b = 0, 1\n    for _ in range(n):\n        yield a\n        a, b = b, a + b\n```\n\n请从以下方面解释：\n1. 函数的作用\n2. 算法原理（生成器、元组解包）\n3. 时间复杂度和空间复杂度\n4. 使用示例"
+  },
+  "Explain this code": {
+    before: "Explain this code",
+    after: "Please explain the following code's functionality and how it works:\n\n```python\ndef fibonacci(n):\n    a, b = 0, 1\n    for _ in range(n):\n        yield a\n        a, b = b, a + b\n```\n\nExplain from these aspects:\n1. What the function does\n2. Algorithm principles (generator, tuple unpacking)\n3. Time and space complexity\n4. Usage examples"
   }
 };
 
-function getOptimized(prompt) {
+function getOptimized(prompt, lang) {
   const p = prompt.replace(/^\/optimize\s*/i, '');
+  if (lang === 'en') {
+    if (p === 'Write a Python script') return examples['Write a Python script'].after;
+    if (p === 'Polish this text') return examples['Polish this text'].after;
+    if (p === 'Explain this code') return examples['Explain this code'].after;
+    if (p.length < 5) return p;
+    return "Please " + p + " with the following details:\n\n" +
+      "1. Specify input and output clearly\n2. List key steps\n3. Specify tech stack or tools\n4. Include error handling\n5. Add comments";
+  }
   if (examples[p]) return examples[p].after;
   if (p.length < 5) return p;
   return "请" + p.replace(/^(请|帮我|能不能)/i, '') + "，具体要求如下：\n\n" +
     "1. 明确输入和输出\n2. 列出关键步骤\n3. 指定技术栈或工具\n4. 包含错误处理\n5. 添加注释说明";
 }
 
-function getRawPrompt(prompt) {
+function getRawPrompt(prompt, lang) {
   const p = prompt.replace(/^\/optimize\s*/i, '');
+  if (lang === 'en') {
+    if (p === 'Write a Python script') return examples['Write a Python script'].before;
+    if (p === 'Polish this text') return examples['Polish this text'].before;
+    if (p === 'Explain this code') return examples['Explain this code'].before;
+    return p;
+  }
   if (examples[p]) return examples[p].before;
   return p;
 }
@@ -600,11 +666,12 @@ document.getElementById('promptInput').addEventListener('keydown', function(e) {
 
 function doOptimize() {
   const input = document.getElementById('promptInput');
+  const lang = getLang();
   const raw = input.value.replace(/^\/optimize\s*/i, '');
   if (!raw.trim()) return;
 
-  const before = getRawPrompt(raw);
-  const after = getOptimized(raw);
+  const before = getRawPrompt(raw, lang);
+  const after = getOptimized(raw, lang);
 
   document.getElementById('compareView').style.display = 'grid';
   document.getElementById('beforeText').textContent = before;
@@ -614,14 +681,23 @@ function doOptimize() {
   terminal.innerHTML = '';
   typeWriter(terminal, [
     { text: '$ /optimize ' + raw, cls: 'cmd' },
-    { text: '⏳ ' + (document.body.getAttribute('data-lang') === 'en' ? 'AI is optimizing...' : 'AI 正在优化...'), cls: 'gray' },
-    { text: '✨ ' + (document.body.getAttribute('data-lang') === 'en' ? 'Done!' : '优化完成！'), cls: 'output' },
+    { text: '⏳ ' + (lang === 'en' ? 'AI is optimizing...' : 'AI 正在优化...'), cls: 'gray' },
+    { text: '✨ ' + (lang === 'en' ? 'Done!' : '优化完成！'), cls: 'output' },
     { text: '', cls: '' },
     { text: after, cls: 'output' }
   ]);
 }
 
-function runExample(el, raw, opt) {
+function runExample(el, zhRaw, enRaw, zhOpt, enOpt) {
+  const lang = getLang();
+  const raw = lang === 'en' ? enRaw : zhRaw;
+  const opt = lang === 'en' ? enOpt : zhOpt;
+  // Temporarily add to examples for lookup
+  if (lang === 'en') {
+    examples[enRaw] = { before: enRaw, after: enOpt };
+  } else {
+    examples[zhRaw] = { before: zhRaw, after: zhOpt };
+  }
   document.getElementById('promptInput').value = '/optimize ' + raw;
   doOptimize();
 }
