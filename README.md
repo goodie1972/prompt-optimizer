@@ -1,103 +1,167 @@
-# Prompt Optimizer 插件 / Plugin v1.1.0
+<p align="center">
+  <h1 align="center">🔮 Prompt Optimizer</h1>
+  <p align="center">ZCode 提示词优化插件 — 让 AI 帮你写出更好的提示词</p>
+  <p align="center"><i>A ZCode plugin that refines your prompts using AI — clearer, more specific, more actionable.</i></p>
+</p>
 
-> **作者 / Author:** goodie1972
-> **GitHub:** https://github.com/goodie1972/prompt-optimizer
-> **PyPI:** https://pypi.org/project/prompt-optimizer-mcp/1.1.0/
-
----
-
-## 简介 / Introduction
-
-**中文：** ZCode 提示词优化插件，提供 `/optimize` 命令和 `optimize_prompt` MCP 工具，让 AI 在对话中自动优化提示词，使其更清晰、更具体、更可执行。
-
-**English:** A ZCode prompt optimizer plugin that provides the `/optimize` command and `optimize_prompt` MCP tool. It leverages AI to automatically refine prompts during conversations, making them clearer, more specific, and more actionable.
+<p align="center">
+  <a href="https://pypi.org/project/prompt-optimizer-mcp/"><img src="https://img.shields.io/pypi/v/prompt-optimizer-mcp?label=PyPI" alt="PyPI"></a>
+  <a href="https://github.com/goodie1972/prompt-optimizer"><img src="https://img.shields.io/github/v/release/goodie1972/prompt-optimizer" alt="GitHub"></a>
+  <a href="LICENSE"><img src="https://img.shields.io/github/license/goodie1972/prompt-optimizer" alt="License"></a>
+</p>
 
 ---
 
-## 安装 / Installation
+## ✨ 功能 / Features
 
-### 中文
+| 中文 | English |
+|------|---------|
+| 输入原始提示词，AI 自动优化 | Feed in a raw prompt, get an AI-polished version |
+| 支持 `/optimize` 命令 | `/optimize` slash command |
+| 支持 `optimize_prompt` MCP 工具 | `optimize_prompt` MCP tool for AI auto-invocation |
+| 自动读取 ZCode 当前激活的模型配置 | Auto-detects your active model in ZCode |
+| 支持 10+ 模型服务商 | 10+ provider support (OpenAI, DeepSeek, Agnes, etc.) |
 
-将整个 `prompt-optimizer` 文件夹复制到：
+---
+
+## 🚀 快速开始 / Quick Start
+
+### 安装 / Install
+
+**方法一：pip 安装（推荐）**
+
+```bash
+pip install prompt-optimizer-mcp
+```
+
+然后在 ZCode 的 **Settings → MCP** 中添加服务器：
+
+```json
+{
+  "mcpServers": {
+    "prompt-optimizer": {
+      "command": "prompt-optimizer-mcp",
+      "env": {}
+    }
+  }
+}
+```
+
+**方法二：ZCode 插件安装**
+
+1. 将本项目克隆或下载到本地：
+
+```bash
+git clone https://github.com/goodie1972/prompt-optimizer.git
+```
+
+2. 将 `prompt-optimizer` 目录下的内容放入 ZCode 插件目录：
 
 ```
 ~/.zcode/cli/plugins/custom/prompt-optimizer/
 ```
 
-在 ZCode 中启用：**Settings → Plugin Management → Installed → prompt-optimizer → Enable**
+3. 在 ZCode 中启用：**Settings → Plugin Management → Installed → prompt-optimizer → Enable**
 
-### English
+### 配置 API Key / Configure API Key
 
-Copy the entire `prompt-optimizer` folder to:
+在 `~/.zcode/mcp/prompt-optimizer/.env` 中创建并写入：
+
+```env
+# 直接指定
+OPTIMIZE_API_KEY=sk-your-key
+OPTIMIZE_BASE_URL=https://api.openai.com/v1
+OPTIMIZE_MODEL=gpt-4o
+
+# 或者使用已有服务商的环境变量（自动识别）
+# AGNES_API_KEY=...
+# DEEPSEEK_API_KEY=...
+# OPENAI_API_KEY=...
+```
+
+> **提示：** 如果 `.env` 未配置，插件会自动读取 ZCode 当前激活的模型配置（`.aiagent.json` 中的 active provider）。
+
+### 使用 / Usage
 
 ```
-~/.zcode/cli/plugins/custom/prompt-optimizer/
+# 在 ZCode 对话中输入：
+/optimize 写一个Python脚本读取CSV文件
+
+# 或者自然对话方式：
+帮我优化一下这个提示词：写一个Python脚本读取CSV文件
 ```
 
-Enable it in ZCode: **Settings → Plugin Management → Installed → prompt-optimizer → Enable**
+---
+
+## 📖 详细说明 / Details
+
+### 工作原理 / How It Works
+
+1. 用户输入原始提示词
+2. 插件通过 OpenAI 兼容协议调用 LLM
+3. LLM 对提示词进行优化：更清晰、更具体、更可执行
+4. 返回优化后的提示词
+
+### 配置优先级 / Config Priority
+
+```
+OPTIMIZE_* 环境变量 (.env)  >  ZCode 激活模型配置 (.aiagent.json)  >  默认值 (Agnes)
+```
+
+### 支持的模型服务商 / Supported Providers
+
+Agnes · DeepSeek · OpenAI · DashScope · SenseNova · SiliconFlow · Zhipu · Moonshot · Gemini · NVIDIA · Anthropic
 
 ---
 
-## 配置 / Configuration
+## 📦 项目结构 / Project Structure
 
-### 中文
-
-在 `~/.zcode/mcp/prompt-optimizer/.env` 中设置 API Key（参考 `.env.example`）。
-
-支持的服务商：Agnes、DeepSeek、OpenAI、DashScope、SenseNova、SiliconFlow、Zhipu、Moonshot、Gemini、NVIDIA、Anthropic 等。
-
-### English
-
-Set your API Key in `~/.zcode/mcp/prompt-optimizer/.env` (see `.env.example` for reference).
-
-Supported providers: Agnes, DeepSeek, OpenAI, DashScope, SenseNova, SiliconFlow, Zhipu, Moonshot, Gemini, NVIDIA, Anthropic, and more.
-
----
-
-## 使用 / Usage
-
-### 中文
-
-- **命令行：** `/optimize 你的提示词`
-- **自然对话：** `帮我优化一下这个提示词：xxx`
-- **MCP 工具：** AI 在对话中自动调用 `optimize_prompt` 工具
-
-### English
-
-- **Command:** `/optimize your prompt`
-- **Natural conversation:** `Please optimize this prompt: xxx`
-- **MCP tool:** The AI automatically invokes the `optimize_prompt` tool during conversations
+```
+prompt-optimizer/
+├── .zcode-plugin/          # ZCode 插件清单
+├── commands/               # /optimize 命令定义
+│   └── optimize.md
+├── mcp/                    # MCP 服务器脚本
+│   └── server.py
+├── skills/                 # 技能定义
+│   └── prompt-optimizer/
+│       └── SKILL.md
+├── pypi/                   # PyPI 包源码
+│   └── package/
+│       ├── pyproject.toml
+│       └── src/prompt_optimizer_mcp/
+│           ├── __init__.py
+│           ├── cli.py
+│           └── server.py
+├── .env.example            # 环境变量模板
+└── README.md
+```
 
 ---
 
-## 组件 / Components
-
-| 组件 / Component | 类型 / Type | 说明 / Description |
-|---|---|---|
-| `optimize` | Command | `/optimize` 命令 / Command |
-| `optimize_prompt` | MCP Tool | 通过 LLM 优化提示词 / Optimize prompts via LLM |
-| `prompt-optimizer` | Skill | 触发场景说明 / Trigger scenario description |
-
----
-
-## 更新日志 / Changelog
+## 📋 更新日志 / Changelog
 
 ### v1.1.1
-- **中文：** 文档更新为双语（中英文）；添加 GitHub 和 PyPI 链接
-- **English:** Documentation updated to bilingual (Chinese/English); added GitHub and PyPI links
+- 文档优化为中英文双语，添加 badges 和链接
+- Documentation optimized to bilingual with badges and links
 
 ### v1.1.0
-- **中文：** 兼容 mcp 2.0.0（`FastMCP` → `MCPServer`）；依赖更新：`mcp>=2.0.0`
-- **English:** Compatible with mcp 2.0.0 (`FastMCP` → `MCPServer`); dependency updated: `mcp>=2.0.0`
+- 兼容 mcp 2.0.0（`FastMCP` → `MCPServer`）
+- Compatible with mcp 2.0.0 (`FastMCP` → `MCPServer`)
 
 ### v1.0.0
-- **中文：** 初始发布
-- **English:** Initial release
+- 初始发布 / Initial release
 
 ---
 
-## 链接 / Links
+## 🔗 链接 / Links
 
-- **GitHub 仓库 / Repository:** https://github.com/goodie1972/prompt-optimizer
-- **PyPI 包 / Package:** https://pypi.org/project/prompt-optimizer-mcp/1.1.0/
-- **问题反馈 / Issues:** https://github.com/goodie1972/prompt-optimizer/issues
+- **GitHub:** https://github.com/goodie1972/prompt-optimizer
+- **PyPI:** https://pypi.org/project/prompt-optimizer-mcp/
+- **Issues:** https://github.com/goodie1972/prompt-optimizer/issues
+
+---
+
+## 📄 许可证 / License
+
+MIT © goodie1972
