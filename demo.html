@@ -1,0 +1,666 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🔮 Prompt Optimizer — ZCode 插件演示 / Plugin Demo</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Inter', -apple-system, sans-serif;
+    background: #0a0a0f;
+    color: #e4e4e7;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 40px 20px;
+  }
+
+  /* Lang Toggle */
+  .lang-bar {
+    position: fixed;
+    top: 16px;
+    right: 20px;
+    z-index: 100;
+    display: flex;
+    gap: 4px;
+    background: #181825;
+    border: 1px solid #2a2a3a;
+    border-radius: 10px;
+    padding: 4px;
+  }
+  .lang-btn {
+    padding: 6px 14px;
+    border-radius: 7px;
+    border: none;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    background: transparent;
+    color: #71717a;
+    transition: all 0.2s;
+  }
+  .lang-btn.active {
+    background: #a78bfa;
+    color: #fff;
+  }
+  .lang-btn:hover:not(.active) {
+    color: #a1a1aa;
+  }
+
+  [data-lang="en"] .zh { display: none; }
+  [data-lang="zh"] .en { display: none; }
+  [data-lang="zh"] .zh { display: inline; }
+  [data-lang="en"] .en { display: inline; }
+
+  /* Header */
+  .header {
+    text-align: center;
+    margin-bottom: 48px;
+    max-width: 720px;
+  }
+  .header h1 {
+    font-size: 42px;
+    font-weight: 800;
+    background: linear-gradient(135deg, #a78bfa, #60a5fa);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 12px;
+  }
+  .header p {
+    font-size: 16px;
+    color: #a1a1aa;
+    line-height: 1.6;
+  }
+  .header .badges {
+    margin-top: 16px;
+    display: flex;
+    gap: 8px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  .badge {
+    display: inline-block;
+    padding: 4px 14px;
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: 500;
+  }
+  .badge.pypi { background: #1e293b; color: #fbbf24; border: 1px solid #334155; }
+  .badge.github { background: #1e293b; color: #e4e4e7; border: 1px solid #334155; }
+  .badge.plugin { background: linear-gradient(135deg, rgba(167,139,250,0.15), rgba(96,165,250,0.15)); color: #a78bfa; border: 1px solid rgba(167,139,250,0.3); }
+
+  /* Step Card */
+  .step-container {
+    max-width: 960px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+  }
+  .step {
+    background: #12121a;
+    border: 1px solid #1e1e2a;
+    border-radius: 16px;
+    overflow: hidden;
+    transition: border-color 0.3s;
+  }
+  .step:hover { border-color: #2e2e4a; }
+  .step-header {
+    padding: 20px 28px;
+    background: #181825;
+    border-bottom: 1px solid #1e1e2a;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+  .step-number {
+    width: 32px; height: 32px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #a78bfa, #60a5fa);
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 700; font-size: 14px; color: #fff;
+    flex-shrink: 0;
+  }
+  .step-title {
+    font-size: 17px;
+    font-weight: 600;
+  }
+  .step-desc {
+    font-size: 13px;
+    color: #a1a1aa;
+    margin-left: auto;
+  }
+  .step-body {
+    padding: 24px 28px;
+  }
+
+  /* Terminal */
+  .terminal {
+    background: #0d0d14;
+    border: 1px solid #1e1e2a;
+    border-radius: 10px;
+    overflow: hidden;
+    font-family: 'SF Mono', 'Fira Code', 'Consolas', monospace;
+    font-size: 14px;
+    line-height: 1.6;
+  }
+  .terminal-bar {
+    background: #181825;
+    padding: 8px 14px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    border-bottom: 1px solid #1e1e2a;
+  }
+  .terminal-dot { width: 10px; height: 10px; border-radius: 50%; }
+  .terminal-dot.red { background: #ef4444; }
+  .terminal-dot.yellow { background: #f59e0b; }
+  .terminal-dot.green { background: #22c55e; }
+  .terminal-title { font-size: 12px; color: #52525b; margin-left: 8px; }
+  .terminal-body { padding: 16px 20px; min-height: 60px; }
+  .terminal-body .prompt { color: #a78bfa; }
+  .terminal-body .cmd { color: #e4e4e7; }
+  .terminal-body .output { color: #34d399; }
+  .terminal-body .gray { color: #71717a; }
+  .cursor {
+    display: inline-block;
+    width: 8px; height: 16px;
+    background: #a78bfa;
+    animation: blink 1s step-end infinite;
+    vertical-align: text-bottom;
+    margin-left: 2px;
+  }
+  @keyframes blink { 50% { opacity: 0; } }
+
+  /* Code block */
+  .code-block {
+    background: #0d0d14;
+    border: 1px solid #1e1e2a;
+    border-radius: 10px;
+    padding: 16px 20px;
+    font-family: 'SF Mono', 'Fira Code', 'Consolas', monospace;
+    font-size: 13px;
+    line-height: 1.7;
+    overflow-x: auto;
+  }
+  .code-block .comment { color: #71717a; }
+  .code-block .key { color: #f472b6; }
+  .code-block .string { color: #34d399; }
+  .code-block .brace { color: #fbbf24; }
+
+  /* ZCode UI Simulation */
+  .zcode-ui {
+    background: #1a1a24;
+    border: 1px solid #2a2a3a;
+    border-radius: 12px;
+    overflow: hidden;
+  }
+  .zcode-sidebar {
+    display: flex;
+    background: #12121a;
+    border-bottom: 1px solid #2a2a3a;
+    padding: 0 16px;
+  }
+  .zcode-sidebar-item {
+    padding: 12px 16px;
+    font-size: 13px;
+    color: #71717a;
+    border-bottom: 2px solid transparent;
+    cursor: default;
+  }
+  .zcode-sidebar-item.active { color: #a78bfa; border-bottom-color: #a78bfa; }
+  .zcode-content { padding: 20px 24px; }
+  .zcode-label {
+    font-size: 12px;
+    font-weight: 600;
+    color: #71717a;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 10px;
+  }
+  .zcode-input {
+    background: #0d0d14;
+    border: 1px solid #2a2a3a;
+    border-radius: 8px;
+    padding: 12px 16px;
+    color: #e4e4e7;
+    font-size: 14px;
+    width: 100%;
+    outline: none;
+    font-family: 'SF Mono', 'Fira Code', 'Consolas', monospace;
+    transition: border-color 0.3s;
+  }
+  .zcode-input:focus { border-color: #a78bfa; }
+  .zcode-input::placeholder { color: #52525b; }
+  .zcode-btn {
+    background: linear-gradient(135deg, #a78bfa, #60a5fa);
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    padding: 10px 24px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: opacity 0.2s;
+    white-space: nowrap;
+  }
+  .zcode-btn:hover { opacity: 0.9; }
+  .zcode-btn.secondary { background: #1e1e2a; color: #a1a1aa; }
+  .zcode-btn.secondary:hover { background: #2a2a3a; }
+
+  /* Comparison */
+  .compare-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+  .compare-card {
+    background: #0d0d14;
+    border: 1px solid #1e1e2a;
+    border-radius: 10px;
+    padding: 16px 20px;
+  }
+  .compare-card .label {
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 8px;
+  }
+  .compare-card .label.before { color: #ef4444; }
+  .compare-card .label.after { color: #34d399; }
+  .compare-card .content {
+    font-size: 14px;
+    line-height: 1.7;
+    white-space: pre-wrap;
+    font-family: 'SF Mono', 'Fira Code', 'Consolas', monospace;
+  }
+
+  /* Install steps */
+  .install-steps { display: flex; flex-direction: column; gap: 12px; }
+  .install-step { display: flex; align-items: flex-start; gap: 12px; }
+  .install-step .icon {
+    width: 24px; height: 24px;
+    border-radius: 50%;
+    background: rgba(167,139,250,0.15);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 12px; color: #a78bfa;
+    flex-shrink: 0; margin-top: 2px;
+  }
+  .install-step .text {
+    font-size: 14px;
+    color: #d4d4d8;
+    line-height: 1.6;
+  }
+  .install-step .text code {
+    background: #181825;
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-family: 'SF Mono', monospace;
+    font-size: 13px;
+    color: #fbbf24;
+  }
+
+  /* Example boxes */
+  .example-box {
+    background: #0d0d14;
+    border: 1px solid #1e1e2a;
+    border-radius: 10px;
+    padding: 14px 18px;
+    cursor: pointer;
+    transition: border-color 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .example-box:hover { border-color: #a78bfa; }
+  .example-box .play-icon {
+    width: 32px; height: 32px;
+    border-radius: 50%;
+    background: rgba(167,139,250,0.15);
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+    color: #a78bfa;
+    font-size: 14px;
+  }
+  .example-box .ex-label { font-size: 13px; color: #a1a1aa; }
+  .example-box .ex-value { font-size: 14px; color: #e4e4e7; }
+
+  /* Footer */
+  .footer {
+    margin-top: 48px;
+    text-align: center;
+    color: #52525b;
+    font-size: 13px;
+  }
+  .footer a { color: #a78bfa; text-decoration: none; }
+  .footer a:hover { text-decoration: underline; }
+
+  /* Responsive */
+  @media (max-width: 640px) {
+    .header h1 { font-size: 28px; }
+    .compare-grid { grid-template-columns: 1fr; }
+    .step-body { padding: 16px; }
+    .lang-bar { top: 10px; right: 10px; }
+  }
+
+  /* Animations */
+  .fade-in {
+    animation: fadeIn 0.6s ease-out forwards;
+    opacity: 0;
+  }
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(12px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .fade-in:nth-child(1) { animation-delay: 0.1s; }
+  .fade-in:nth-child(2) { animation-delay: 0.3s; }
+  .fade-in:nth-child(3) { animation-delay: 0.5s; }
+  .fade-in:nth-child(4) { animation-delay: 0.7s; }
+  .fade-in:nth-child(5) { animation-delay: 0.9s; }
+</style>
+</head>
+<body data-lang="zh">
+
+<!-- Language Toggle -->
+<div class="lang-bar">
+  <button class="lang-btn active" data-lang="zh" onclick="switchLang('zh')">中文</button>
+  <button class="lang-btn" data-lang="en" onclick="switchLang('en')">English</button>
+</div>
+
+<div class="header fade-in">
+  <h1>🔮 Prompt Optimizer</h1>
+  <p>
+    <span class="zh">ZCode 提示词优化插件 · 让 AI 帮你写出更好的提示词</span>
+    <span class="en">ZCode plugin that refines your prompts using AI</span>
+  </p>
+  <div class="badges">
+    <span class="badge pypi">📦 pip install prompt-optimizer-mcp</span>
+    <span class="badge github">🐙 GitHub: goodie1972/prompt-optimizer</span>
+    <span class="badge plugin">⚡ <span class="zh">ZCode 插件</span><span class="en">ZCode Plugin</span></span>
+  </div>
+</div>
+
+<div class="step-container">
+
+  <!-- Step 1: Install -->
+  <div class="step fade-in">
+    <div class="step-header">
+      <span class="step-number">1</span>
+      <span class="step-title">📥 <span class="zh">安装插件</span><span class="en">Install Plugin</span></span>
+      <span class="step-desc"><span class="zh">两种方式，任选其一</span><span class="en">Two methods available</span></span>
+    </div>
+    <div class="step-body">
+      <div class="install-steps">
+        <div class="install-step">
+          <span class="icon">A</span>
+          <div class="text">
+            <strong><span class="zh">ZCode 插件市场（推荐）</span><span class="en">ZCode Plugin Marketplace (Recommended)</span></strong><br>
+            <span class="zh">打开 ZCode → <strong>Settings → Plugin Management → Discover</strong> → 点击 <strong>⊕</strong> → 输入：</span>
+            <span class="en">Open ZCode → <strong>Settings → Plugin Management → Discover</strong> → Click <strong>⊕</strong> → Enter:</span>
+            <br><code>https://github.com/goodie1972/prompt-optimizer</code>
+          </div>
+        </div>
+        <div class="install-step">
+          <span class="icon">B</span>
+          <div class="text">
+            <strong><span class="zh">pip 安装</span><span class="en">pip Install</span></strong><br>
+            <code>pip install prompt-optimizer-mcp</code><br>
+            <span class="zh">然后在 ZCode 的 <strong>Settings → MCP</strong> 中添加服务器配置</span>
+            <span class="en">Then add the server in ZCode <strong>Settings → MCP</strong></span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Step 2: Config -->
+  <div class="step fade-in">
+    <div class="step-header">
+      <span class="step-number">2</span>
+      <span class="step-title">🔑 <span class="zh">配置 API Key</span><span class="en">Configure API Key</span></span>
+      <span class="step-desc"><span class="zh">只需设置一次</span><span class="en">One-time setup</span></span>
+    </div>
+    <div class="step-body">
+      <p style="font-size:14px;color:#a1a1aa;margin-bottom:14px;">
+        <span class="zh">在 </span><span class="en">In </span>
+        <code style="background:#181825;padding:2px 8px;border-radius:4px;">~/.zcode/mcp/prompt-optimizer/.env</code>
+        <span class="zh"> 中写入：</span><span class="en"> add:</span>
+      </p>
+      <div class="code-block">
+        <span class="comment"><span class="zh"># 方式一：直接指定</span><span class="en"># Option 1: Direct config</span></span><br>
+        <span class="key">OPTIMIZE_API_KEY</span>=<span class="string">sk-your-key</span><br>
+        <span class="key">OPTIMIZE_BASE_URL</span>=<span class="string">https://api.openai.com/v1</span><br>
+        <span class="key">OPTIMIZE_MODEL</span>=<span class="string">gpt-4o</span><br><br>
+        <span class="comment"><span class="zh"># 方式二：使用已有环境变量（自动识别）</span><span class="en"># Option 2: Use existing env vars (auto-detect)</span></span><br>
+        <span class="comment"># AGNES_API_KEY=...</span><br>
+        <span class="comment"># DEEPSEEK_API_KEY=...</span>
+      </div>
+      <p style="font-size:13px;color:#71717a;margin-top:10px;">
+        💡 <span class="zh">未配置时会自动读取 ZCode 当前激活的模型配置</span>
+        <span class="en">Auto-detects your active ZCode model if not configured</span>
+      </p>
+    </div>
+  </div>
+
+  <!-- Step 3: Demo -->
+  <div class="step fade-in">
+    <div class="step-header">
+      <span class="step-number">3</span>
+      <span class="step-title">🎮 <span class="zh">使用演示</span><span class="en">Live Demo</span></span>
+      <span class="step-desc"><span class="zh">试试下面的交互</span><span class="en">Try it below</span></span>
+    </div>
+    <div class="step-body">
+      <div class="zcode-ui">
+        <div class="zcode-sidebar">
+          <span class="zcode-sidebar-item active">💬 Chat</span>
+          <span class="zcode-sidebar-item">🧠 Agent</span>
+          <span class="zcode-sidebar-item">📚 Knowledge</span>
+          <span class="zcode-sidebar-item">⚙️ Settings</span>
+        </div>
+        <div class="zcode-content">
+          <div class="zcode-label">
+            <span class="zh">输入提示词</span><span class="en">Enter your prompt</span>
+          </div>
+          <div style="display:flex;gap:10px;margin-bottom:12px;">
+            <input class="zcode-input" id="promptInput" type="text"
+                   placeholder="/optimize 写一个Python脚本读取CSV文件"
+                   value="/optimize 写一个Python脚本读取CSV文件">
+            <button class="zcode-btn" id="optimizeBtn">
+              ✨ <span class="zh">优化</span><span class="en">Optimize</span>
+            </button>
+          </div>
+
+          <div class="compare-grid" id="compareView" style="display:none;">
+            <div class="compare-card">
+              <div class="label before">⬅ <span class="zh">优化前</span><span class="en">Before</span></div>
+              <div class="content" id="beforeText"></div>
+            </div>
+            <div class="compare-card">
+              <div class="label after">➡ <span class="zh">优化后</span><span class="en">After</span></div>
+              <div class="content" id="afterText"></div>
+            </div>
+          </div>
+
+          <div class="terminal" style="margin-top:12px;">
+            <div class="terminal-bar">
+              <span class="terminal-dot red"></span>
+              <span class="terminal-dot yellow"></span>
+              <span class="terminal-dot green"></span>
+              <span class="terminal-title">ZCode — prompt-optimizer</span>
+            </div>
+            <div class="terminal-body" id="terminalBody">
+              <span class="gray"><span class="zh">$ 输入 /optimize 命令开始优化...</span><span class="en">$ Type /optimize to start...</span></span><span class="cursor"></span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Step 4: Examples -->
+  <div class="step fade-in">
+    <div class="step-header">
+      <span class="step-number">4</span>
+      <span class="step-title">📋 <span class="zh">示例</span><span class="en">Examples</span></span>
+      <span class="step-desc"><span class="zh">点击体验</span><span class="en">Click to try</span></span>
+    </div>
+    <div class="step-body">
+      <div style="display:flex;flex-direction:column;gap:10px;">
+        <div class="example-box" onclick="runExample(this, '请帮我写个代码', '请帮我生成一个 Python 脚本，实现以下功能：\n1. 读取指定路径下的 CSV 文件\n2. 处理缺失值和数据类型\n3. 输出统计摘要\n\n要求：\n- 使用 pandas 库\n- 添加详细的注释\n- 包含错误处理')">
+          <span class="play-icon">▶</span>
+          <div>
+            <div class="ex-label"><span class="zh">原始</span><span class="en">Raw</span>: "请帮我写个代码"</div>
+            <div class="ex-value"><span class="zh">→ 优化后：明确需求 + 列要点</span><span class="en">→ After: clear + structured</span></div>
+          </div>
+        </div>
+        <div class="example-box" onclick="runExample(this, '优化一下这段文字', '请优化以下文本，使其更清晰、更有说服力、更专业：\n\n[粘贴你的文本]\n\n要求：\n- 保持原意不变\n- 改善逻辑结构\n- 使用更精准的词汇\n- 控制篇幅在合理范围内')">
+          <span class="play-icon">▶</span>
+          <div>
+            <div class="ex-label"><span class="zh">原始</span><span class="en">Raw</span>: "优化一下这段文字"</div>
+            <div class="ex-value"><span class="zh">→ 优化后：指定目标 + 约束条件</span><span class="en">→ After: goals + constraints</span></div>
+          </div>
+        </div>
+        <div class="example-box" onclick="runExample(this, '帮我解释这段代码', '请解释以下代码的功能和工作原理：\n\n```python\ndef fibonacci(n):\n    a, b = 0, 1\n    for _ in range(n):\n        yield a\n        a, b = b, a + b\n```\n\n请从以下方面解释：\n1. 函数的作用\n2. 算法原理（生成器、元组解包）\n3. 时间复杂度和空间复杂度\n4. 使用示例')">
+          <span class="play-icon">▶</span>
+          <div>
+            <div class="ex-label"><span class="zh">原始</span><span class="en">Raw</span>: "帮我解释这段代码"</div>
+            <div class="ex-value"><span class="zh">→ 优化后：指定角度 + 分析维度</span><span class="en">→ After: perspectives + dimensions</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<div class="footer">
+  <p>🔮 Prompt Optimizer · by <a href="https://github.com/goodie1972">goodie1972</a></p>
+  <p style="margin-top:4px;">
+    <a href="https://github.com/goodie1972/prompt-optimizer">GitHub</a>
+    · <a href="https://pypi.org/project/prompt-optimizer-mcp/">PyPI</a>
+    · <a href="https://goodie1972.github.io/prompt-optimizer/demo.html"><span class="zh">在线演示</span><span class="en">Live Demo</span></a>
+  </p>
+</div>
+
+<script>
+// Language switch
+function switchLang(lang) {
+  document.body.setAttribute('data-lang', lang);
+  document.querySelectorAll('.lang-btn').forEach(b => {
+    b.classList.toggle('active', b.getAttribute('data-lang') === lang);
+  });
+  localStorage.setItem('demo-lang', lang);
+}
+
+// Restore saved language
+const saved = localStorage.getItem('demo-lang');
+if (saved) switchLang(saved);
+
+// Demo data
+const examples = {
+  "请帮我写个代码": {
+    before: "请帮我写个代码",
+    after: "请帮我生成一个 Python 脚本，实现以下功能：\n1. 读取指定路径下的 CSV 文件\n2. 处理缺失值和数据类型\n3. 输出统计摘要\n\n要求：\n- 使用 pandas 库\n- 添加详细的注释\n- 包含错误处理"
+  },
+  "优化一下这段文字": {
+    before: "优化一下这段文字",
+    after: "请优化以下文本，使其更清晰、更有说服力、更专业：\n\n[粘贴你的文本]\n\n要求：\n- 保持原意不变\n- 改善逻辑结构\n- 使用更精准的词汇\n- 控制篇幅在合理范围内"
+  },
+  "帮我解释这段代码": {
+    before: "帮我解释这段代码",
+    after: "请解释以下代码的功能和工作原理：\n\n```python\ndef fibonacci(n):\n    a, b = 0, 1\n    for _ in range(n):\n        yield a\n        a, b = b, a + b\n```\n\n请从以下方面解释：\n1. 函数的作用\n2. 算法原理（生成器、元组解包）\n3. 时间复杂度和空间复杂度\n4. 使用示例"
+  }
+};
+
+function getOptimized(prompt) {
+  const p = prompt.replace(/^\/optimize\s*/i, '');
+  if (examples[p]) return examples[p].after;
+  if (p.length < 5) return p;
+  return "请" + p.replace(/^(请|帮我|能不能)/i, '') + "，具体要求如下：\n\n" +
+    "1. 明确输入和输出\n2. 列出关键步骤\n3. 指定技术栈或工具\n4. 包含错误处理\n5. 添加注释说明";
+}
+
+function getRawPrompt(prompt) {
+  const p = prompt.replace(/^\/optimize\s*/i, '');
+  if (examples[p]) return examples[p].before;
+  return p;
+}
+
+document.getElementById('optimizeBtn').addEventListener('click', doOptimize);
+document.getElementById('promptInput').addEventListener('keydown', function(e) {
+  if (e.key === 'Enter') doOptimize();
+});
+
+function doOptimize() {
+  const input = document.getElementById('promptInput');
+  const raw = input.value.replace(/^\/optimize\s*/i, '');
+  if (!raw.trim()) return;
+
+  const before = getRawPrompt(raw);
+  const after = getOptimized(raw);
+
+  document.getElementById('compareView').style.display = 'grid';
+  document.getElementById('beforeText').textContent = before;
+  document.getElementById('afterText').textContent = after;
+
+  const terminal = document.getElementById('terminalBody');
+  terminal.innerHTML = '';
+  typeWriter(terminal, [
+    { text: '$ /optimize ' + raw, cls: 'cmd' },
+    { text: '⏳ ' + (document.body.getAttribute('data-lang') === 'en' ? 'AI is optimizing...' : 'AI 正在优化...'), cls: 'gray' },
+    { text: '✨ ' + (document.body.getAttribute('data-lang') === 'en' ? 'Done!' : '优化完成！'), cls: 'output' },
+    { text: '', cls: '' },
+    { text: after, cls: 'output' }
+  ]);
+}
+
+function runExample(el, raw, opt) {
+  document.getElementById('promptInput').value = '/optimize ' + raw;
+  doOptimize();
+}
+
+function typeWriter(container, lines) {
+  let lineIndex = 0;
+  let charIndex = 0;
+  let currentLine = null;
+  let currentSpan = null;
+
+  function addLine() {
+    if (lineIndex >= lines.length) {
+      const cursor = document.createElement('span');
+      cursor.className = 'cursor';
+      container.appendChild(cursor);
+      return;
+    }
+    const line = lines[lineIndex];
+    currentLine = line.text;
+    charIndex = 0;
+    currentSpan = document.createElement('div');
+    currentSpan.className = line.cls || '';
+    container.appendChild(currentSpan);
+    typeChars();
+  }
+
+  function typeChars() {
+    if (charIndex >= currentLine.length) {
+      lineIndex++;
+      setTimeout(addLine, 200);
+      return;
+    }
+    currentSpan.textContent += currentLine[charIndex];
+    charIndex++;
+    setTimeout(typeChars, 15);
+  }
+
+  addLine();
+}
+</script>
+</body>
+</html>
