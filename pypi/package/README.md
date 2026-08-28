@@ -1,4 +1,4 @@
-# prompt-optimizer-mcp v1.1.1
+# prompt-optimizer-mcp v1.2.1
 
 > **作者 / Author:** goodie1972
 > **GitHub:** https://github.com/goodie1972/prompt-optimizer
@@ -133,20 +133,25 @@ prompt-optimizer-mcp
 - **中文：** 文档更新为双语（中英文）；添加 GitHub 和 PyPI 链接
 - **English:** Documentation updated to bilingual (Chinese/English); added GitHub and PyPI links
 
-### v1.1.0
-- **中文：** 兼容 mcp 2.0.0（`FastMCP` → `MCPServer`）；依赖更新：`mcp>=2.0.0`
-- **English:** Compatible with mcp 2.0.0 (`FastMCP` → `MCPServer`); dependency updated: `mcp>=2.0.0`
+### v1.2.0
+- **中文：** 添加多工具支持：ZCode、Claude Code、Codec CLI、Reasonix、DSH、MimoCode、OpenCode
+- **English:** Added multi-tool support: ZCode, Claude Code, Codex CLI, Reasonix, DSH, MimoCode, OpenCode
+- **中文：** DSH npm 包已准备好提交到 dsh-market
+- **English:** DSH npm package ready for dsh-market submission
+- **中文：** 更新文档包含多工具安装指南
+- **English:** Updated documentation with tool-specific installation guides
+- **中文：** 添加 Gitee 中国镜像以加速国内访问
+- **English:** Added Gitee mirror for China mainland users
 
-### v1.0.0
-- **中文：** 初始发布
-- **English:** Initial release
-
+### v1.2.1
+- **中文：** 修复递归优化问题：在命令输出中添加标记和说明，防止使用 /optimize 命令时无限循环。
+- **English:** Fixed recursive optimization issue: added marker and instruction to prevent infinite loops when using /optimize command repeatedly.
 ---
 
 ## 链接 / Links
 
 - **GitHub 仓库 / Repository:** https://github.com/goodie1972/prompt-optimizer
-- **PyPI 包 / Package:** https://pypi.org/project/prompt-optimizer-mcp/1.1.0/
+- **PyPI 包 / Package:** https://pypi.org/project/prompt-optimizer-mcp/1.2.1/
 - **问题反馈 / Issues:** https://github.com/goodie1972/prompt-optimizer/issues
 
 ---

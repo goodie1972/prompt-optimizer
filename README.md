@@ -147,6 +147,10 @@ optimize_prompt(prompt="Your raw prompt here")
 
 ## Changelog
 
+### v1.2.1
+- Fixed recursive optimization issue: added marker and instruction to prevent infinite loops when using /optimize command repeatedly.
+
+
 ### v1.2.0
 - Added multi-tool support: ZCode, Claude Code, Codex CLI, Reasonix, DSH, MimoCode, OpenCode
 - DSH npm package with dsh-market registry ready
